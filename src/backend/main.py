@@ -16,7 +16,7 @@ def get_redis_client():
         socket_connect_timeout=1
     )
 
-@app.get("/health", status_code=status.HTTP_200_OK)
+@app.get("/healthz", status_code=status.HTTP_200_OK)
 def health_check():
     """
     Health check endpoint to verify the service is functioning correctly.

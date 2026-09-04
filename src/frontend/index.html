@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GitOps K8s Dashboard</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; }
+    .card { border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-weight: bold; }
+    .online { background: #d4edda; color: #155724; }
+    .offline { background: #f8d7da; color: #721c24; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Microservices Status</h2>
+    <p><strong>Frontend:</strong> <span class="badge online">Online (Served via NGINX)</span></p>
+    <p><strong>Backend API:</strong> <span id="api-status" class="badge offline">Connecting...</span></p>
+    <p><strong>Redis State:</strong> <span id="redis-status" class="badge offline">Checking...</span></p>
+    <p><strong>Visit Counter:</strong> <span id="visit-count">-</span></p>
+  </div>
+
+  <script>
+    async function checkStatus() {
+      try {
+        const response = await fetch('/api/status');
+        if (!response.ok) throw new Error('API unreachable');
+        const data = await response.json();
+        
+        document.getElementById('api-status').textContent = 'Online';
+        document.getElementById('api-status').className = 'badge online';
+
+        if (data.redis_connected) {
+          document.getElementById('redis-status').textContent = 'Connected';
+          document.getElementById('redis-status').className = 'badge online';
+          document.getElementById('visit-count').textContent = data.visit_count;
+        } else {
+          document.getElementById('redis-status').textContent = 'Disconnected';
+          document.getElementById('redis-status').className = 'badge offline';
+          document.getElementById('visit-count').textContent = 'N/A';
+        }
+      } catch (err) {
+        document.getElementById('api-status').textContent = 'Offline';
+        document.getElementById('api-status').className = 'badge offline';
+      }
+    }
+    checkStatus();
+  </script>
+</body>
+</html>
