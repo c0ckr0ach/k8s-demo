@@ -11,7 +11,7 @@ spec:
     repoURL: https://github.com/c0ckr0ach/k8s-demo.git
     targetRevision: main
     path: gitops/charts/k8s-demo-app
-    helms:
+    helm:
       valueFiles:
         - values-dev.yaml
   destination:
