@@ -13,7 +13,7 @@ spec:
     path: gitops/charts/k8s-demo-app
     helm:
       valueFiles:
-        - values-dev.yaml
+        - ../../environments/dev/values-dev.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: dev
