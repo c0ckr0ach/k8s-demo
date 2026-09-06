@@ -1,0 +1,14 @@
+global:
+  environment: development
+
+backend:
+  replicaCount: 1
+  image:
+    tag: v1
+    pullPolicy: IfNotPresent
+
+frontend:
+  replicaCount: 1
+  image:
+    tag: v1
+    pullPolicy: IfNotPresent
