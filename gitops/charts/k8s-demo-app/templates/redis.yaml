@@ -1,11 +1,11 @@
-apiVersion: v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: redis-deployment
   labels:
     app: redis
 spec:
-  replicas: 1
+  replicas: {{ .Values.redis.replicaCount | default 1 }}
   selector:
     matchLabels:
       app: redis
@@ -20,8 +20,7 @@ spec:
           imagePullPolicy: {{ .Values.redis.image.pullPolicy }}
           ports:
             - containerPort: {{ .Values.redis.service.port }}
-
-
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -29,7 +28,7 @@ metadata:
   labels:
     app: redis
 spec:
-  type: {{ .Values.redis.service.type }}
+  type: {{ .Values.redis.service.type | default "ClusterIP" }}
   ports:
     - port: {{ .Values.redis.service.port }}
       targetPort: {{ .Values.redis.service.port }}
