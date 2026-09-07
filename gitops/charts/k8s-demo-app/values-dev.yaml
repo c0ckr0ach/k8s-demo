@@ -2,7 +2,7 @@ global:
   environment: development
 
 backend:
-  replicaCount: 1
+  replicaCount: 2
   image:
     tag: v1
     pullPolicy: IfNotPresent
