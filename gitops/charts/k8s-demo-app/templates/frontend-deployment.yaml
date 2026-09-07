@@ -1,11 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend-deployment
+  name: frontend-development
   labels:
     app: frontend
 spec:
-  replicas: {{ .Values.frontend.replicaCount }}
+  replicas: {{ .Values.frontend.replicaCount | default 1 }}
   selector:
     matchLabels:
       app: frontend
@@ -16,9 +16,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag}}"
-          imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
+          image: "{{ .Values.frontend.image.repository | default "frontend" }}:{{ .Values.frontend.image.tag | default "v1" }}"
+          imagePullPolicy: {{ .Values.frontend.image.pullPolicy | default "IfNotPresent" }}
           ports:
-            - containerPort: {{ .Values.frontend.service.port }}
-          resources:
-            {{- toYaml .Values.frontend.resources | nindent 12 }}"
+            - containerPort: 80
