@@ -5,7 +5,7 @@ backend:
   replicaCount: 1
   image:
     repository: backend
-    tag: v1
+    tag: v2
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -56,3 +56,6 @@ redis:
 ingress:
   enabled: true
   className: nginx
+
+serviceMonitor:
+  enabled: true

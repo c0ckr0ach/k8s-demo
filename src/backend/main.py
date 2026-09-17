@@ -1,8 +1,10 @@
 import os
 import redis
 from fastapi import FastAPI, status
+from prometheus_fastapi_instrumentator import Instrumentator
 
 app = FastAPI(title= "Gitops microservice API")
+Instrumentator().instrument(app).expose(app)
 
 ENVIRONMENT = os.getenv("APP_ENV", "local")
 REDIS_HOST = os.getenv("REDIS_HOST", "redis-service")
